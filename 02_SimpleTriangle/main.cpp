@@ -1,4 +1,4 @@
-#define WIN32_LEAN_AND_MEAN
+Ôªø#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
 #include <vector>
@@ -23,7 +23,7 @@ int __stdcall wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCm
   glfwWindowHint(GLFW_RESIZABLE, 0);
   auto window = glfwCreateWindow(WindowWidth, WindowHeight, AppTitle, nullptr, nullptr);
 
-  // Vulkan èâä˙âª
+  // Vulkan ÂàùÊúüÂåñ
   TriangleApp theApp;
   theApp.initialize(window, AppTitle);
 
@@ -33,7 +33,7 @@ int __stdcall wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCm
     theApp.render();
   }
 
-  // Vulkan èIóπ
+  // Vulkan ÁµÇ‰∫Ü
   theApp.terminate();
   glfwTerminate();
   return 0;

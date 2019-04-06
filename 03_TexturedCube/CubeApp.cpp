@@ -1,4 +1,4 @@
-#include "CubeApp.h"
+ï»¿#include "CubeApp.h"
 
 #include <fstream>
 #include <array>
@@ -22,7 +22,7 @@ void CubeApp::prepare()
   m_sampler = createSampler();
   prepareDescriptorSet();
 
-  // ’¸“_‚Ì“ü—Íİ’è
+  // é ‚ç‚¹ã®å…¥åŠ›è¨­å®š
   VkVertexInputBindingDescription inputBinding{
     0,                          // binding
     sizeof(CubeVertex),         // stride
@@ -42,7 +42,7 @@ void CubeApp::prepare()
   vertexInputCI.vertexAttributeDescriptionCount = uint32_t(inputAttribs.size());
   vertexInputCI.pVertexAttributeDescriptions = inputAttribs.data();
 
-  // ƒuƒŒƒ“ƒfƒBƒ“ƒO‚Ìİ’è
+  // ãƒ–ãƒ¬ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ã®è¨­å®š
   const auto colorWriteAll = \
     VK_COLOR_COMPONENT_R_BIT | \
     VK_COLOR_COMPONENT_G_BIT | \
@@ -62,7 +62,7 @@ void CubeApp::prepare()
   cbCI.attachmentCount = 1;
   cbCI.pAttachments = &blendAttachment;
 
-  // ƒrƒ…[ƒ|[ƒg‚Ìİ’è
+  // ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆã®è¨­å®š
   VkViewport viewport;
   {
     viewport.x = 0.0f;
@@ -83,13 +83,13 @@ void CubeApp::prepare()
   viewportCI.scissorCount = 1;
   viewportCI.pScissors = &scissor;
 
-  // ƒvƒŠƒ~ƒeƒBƒuƒgƒ|ƒƒW[İ’è
+  // ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãƒˆãƒãƒ­ã‚¸ãƒ¼è¨­å®š
   VkPipelineInputAssemblyStateCreateInfo inputAssemblyCI{};
   inputAssemblyCI.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
   inputAssemblyCI.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 
 
-  // ƒ‰ƒXƒ^ƒ‰ƒCƒU[ƒXƒe[ƒgİ’è
+  // ãƒ©ã‚¹ã‚¿ãƒ©ã‚¤ã‚¶ãƒ¼ã‚¹ãƒ†ãƒ¼ãƒˆè¨­å®š
   VkPipelineRasterizationStateCreateInfo rasterizerCI{};
   rasterizerCI.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
   rasterizerCI.polygonMode = VK_POLYGON_MODE_FILL;
@@ -97,12 +97,12 @@ void CubeApp::prepare()
   rasterizerCI.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
   rasterizerCI.lineWidth = 1.0f;
 
-  // ƒ}ƒ‹ƒ`ƒTƒ“ƒvƒ‹İ’è
+  // ãƒãƒ«ãƒã‚µãƒ³ãƒ—ãƒ«è¨­å®š
   VkPipelineMultisampleStateCreateInfo multisampleCI{};
   multisampleCI.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
   multisampleCI.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
 
-  // ƒfƒvƒXƒXƒeƒ“ƒVƒ‹ƒXƒe[ƒgİ’è
+  // ãƒ‡ãƒ—ã‚¹ã‚¹ãƒ†ãƒ³ã‚·ãƒ«ã‚¹ãƒ†ãƒ¼ãƒˆè¨­å®š
   VkPipelineDepthStencilStateCreateInfo depthStencilCI{};
   depthStencilCI.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
   depthStencilCI.depthTestEnable = VK_TRUE;
@@ -110,21 +110,21 @@ void CubeApp::prepare()
   depthStencilCI.depthWriteEnable = VK_TRUE;
   depthStencilCI.stencilTestEnable = VK_FALSE;
 
-  // ƒVƒF[ƒ_[ƒoƒCƒiƒŠ‚Ì“Ç‚İ‚İ
+  // ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒã‚¤ãƒŠãƒªã®èª­ã¿è¾¼ã¿
   vector<VkPipelineShaderStageCreateInfo> shaderStages
   {
     loadShaderModule("shader.vert.spv", VK_SHADER_STAGE_VERTEX_BIT),
     loadShaderModule("shader.frag.spv", VK_SHADER_STAGE_FRAGMENT_BIT)
   };
 
-  // ƒpƒCƒvƒ‰ƒCƒ“ƒŒƒCƒAƒEƒg
+  // ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ
   VkPipelineLayoutCreateInfo pipelineLayoutCI{};
   pipelineLayoutCI.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
   pipelineLayoutCI.setLayoutCount = 1;
   pipelineLayoutCI.pSetLayouts = &m_descriptorSetLayout;
   vkCreatePipelineLayout(m_device, &pipelineLayoutCI, nullptr, &m_pipelineLayout);
 
-  // ƒpƒCƒvƒ‰ƒCƒ“‚Ì\’z
+  // ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã®æ§‹ç¯‰
   VkGraphicsPipelineCreateInfo ci{};
   ci.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
   ci.stageCount = uint32_t(shaderStages.size());
@@ -140,7 +140,7 @@ void CubeApp::prepare()
   ci.layout = m_pipelineLayout;
   vkCreateGraphicsPipelines(m_device, VK_NULL_HANDLE, 1, &ci, nullptr, &m_pipeline);
 
-  // ShaderModule ‚Í‚à‚¤•s—v‚Ì‚½‚ß”jŠü
+  // ShaderModule ã¯ã‚‚ã†ä¸è¦ã®ãŸã‚ç ´æ£„
   for (const auto& v : shaderStages)
   {
     vkDestroyShaderModule(m_device, v.module, nullptr);
@@ -172,7 +172,7 @@ void CubeApp::cleanup()
 
 void CubeApp::makeCommand(VkCommandBuffer command)
 {
-  // ƒ†ƒjƒtƒH[ƒ€ƒoƒbƒtƒ@‚Ì’†g‚ğXV‚·‚é.
+  // ãƒ¦ãƒ‹ãƒ•ã‚©ãƒ¼ãƒ ãƒãƒƒãƒ•ã‚¡ã®ä¸­èº«ã‚’æ›´æ–°ã™ã‚‹.
   ShaderParameters shaderParam{};
   shaderParam.mtxWorld = glm::rotate(glm::identity<glm::mat4>(), glm::radians(45.0f), glm::vec3(0, 1, 0));
   shaderParam.mtxView = lookAtRH(vec3(0.0f, 3.0f, 5.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
@@ -185,21 +185,21 @@ void CubeApp::makeCommand(VkCommandBuffer command)
     vkUnmapMemory(m_device, memory);
   }
 
-  // ì¬‚µ‚½ƒpƒCƒvƒ‰ƒCƒ“‚ğƒZƒbƒg
+  // ä½œæˆã—ãŸãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚’ã‚»ãƒƒãƒˆ
   vkCmdBindPipeline(command, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipeline);
 
-  // Šeƒoƒbƒtƒ@ƒIƒuƒWƒFƒNƒg‚ÌƒZƒbƒg
+  // å„ãƒãƒƒãƒ•ã‚¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚»ãƒƒãƒˆ
   VkDeviceSize offset = 0;
   vkCmdBindVertexBuffers(command, 0, 1, &m_vertexBuffer.buffer, &offset);
   vkCmdBindIndexBuffer(command, m_indexBuffer.buffer, offset, VK_INDEX_TYPE_UINT32);
 
-  // ƒfƒBƒXƒNƒŠƒvƒ^ƒZƒbƒg‚ğƒZƒbƒg
+  // ãƒ‡ã‚£ã‚¹ã‚¯ãƒªãƒ—ã‚¿ã‚»ãƒƒãƒˆã‚’ã‚»ãƒƒãƒˆ
   VkDescriptorSet descriptorSets[] = {
     m_descriptorSet[m_imageIndex]
   };
   vkCmdBindDescriptorSets(command, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipelineLayout, 0, 1, descriptorSets, 0, nullptr);
 
-  // 3ŠpŒ`•`‰æ
+  // 3è§’å½¢æç”»
   vkCmdDrawIndexed(command, m_indexCount, 1, 0, 0, 0);
 }
 
@@ -222,32 +222,32 @@ void CubeApp::makeCubeGeometry()
   const vec2 rt(1.0f, 1.0f);
   CubeVertex vertices[] = {
     // front
-    // ³–Ê.
+    // æ­£é¢.
     { vec3(-k, k, k), yellow,  lb },
     { vec3(-k,-k, k), red,     lt },
     { vec3(k, k, k), white,   rb },
     { vec3(k,-k, k), magenta, rt },
-    // ‰E.
+    // å³.
     { vec3(k, k, k), white,   lb },
     { vec3(k,-k, k), magenta, lt },
     { vec3(k, k,-k), cyan,    rb },
     { vec3(k,-k,-k), blue,    rt },
-    // ¶
+    // å·¦
     { vec3(-k, k,-k), green,  lb },
     { vec3(-k,-k,-k), black,  lt },
     { vec3(-k, k, k), yellow, rb },
     { vec3(-k,-k, k), red,    rt },
-    // — .
+    // è£.
     { vec3(k, k,-k), cyan, lb },
     { vec3(k,-k,-k), blue, lt },
     { vec3(-k, k,-k), green, rb },
     { vec3(-k,-k,-k), black, rt },
-    // ã.
+    // ä¸Š.
     { vec3(-k, k,-k), green, lb },
     { vec3(-k, k, k), yellow, lt },
     { vec3(k, k,-k), cyan, rb },
     { vec3(k, k, k), white, rt },
-    // ’ê.
+    // åº•.
     { vec3(-k,-k, k), red, lb },
     { vec3(-k,-k,-k), black, lt },
     { vec3(k,-k, k), magenta, rb },
@@ -267,14 +267,14 @@ void CubeApp::makeCubeGeometry()
   m_vertexBuffer = createBuffer(sizeof(vertices), VK_BUFFER_USAGE_VERTEX_BUFFER_BIT);
   m_indexBuffer = createBuffer(sizeof(indices), VK_BUFFER_USAGE_INDEX_BUFFER_BIT);
 
-  // ’¸“_ƒf[ƒ^‚Ì‘‚«‚İ
+  // é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã®æ›¸ãè¾¼ã¿
   {
     void* p;
     vkMapMemory(m_device, m_vertexBuffer.memory, 0, VK_WHOLE_SIZE, 0, &p);
     memcpy(p, vertices, sizeof(vertices));
     vkUnmapMemory(m_device, m_vertexBuffer.memory);
   }
-  // ƒCƒ“ƒfƒbƒNƒXƒf[ƒ^‚Ì‘‚«‚İ
+  // ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ‡ãƒ¼ã‚¿ã®æ›¸ãè¾¼ã¿
   {
     void* p;
     vkMapMemory(m_device, m_indexBuffer.memory, 0, VK_WHOLE_SIZE, 0, &p);
@@ -347,7 +347,7 @@ void CubeApp::prepareDescriptorSet()
   m_descriptorSet.resize(m_uniformBuffers.size());
   vkAllocateDescriptorSets(m_device, &ai, m_descriptorSet.data());
 
-  // ƒfƒBƒXƒNƒŠƒvƒ^ƒZƒbƒg‚Ö‘‚«‚İ.
+  // ãƒ‡ã‚£ã‚¹ã‚¯ãƒªãƒ—ã‚¿ã‚»ãƒƒãƒˆã¸æ›¸ãè¾¼ã¿.
   for (int i = 0; i<int(m_uniformBuffers.size()); ++i)
   {
     VkDescriptorBufferInfo descUBO{};
@@ -393,18 +393,18 @@ CubeApp::BufferObject CubeApp::createBuffer(uint32_t size, VkBufferUsageFlags us
   auto result = vkCreateBuffer(m_device, &ci, nullptr, &obj.buffer);
   checkResult(result);
 
-  // ƒƒ‚ƒŠ—Ê‚ÌZo
+  // ãƒ¡ãƒ¢ãƒªé‡ã®ç®—å‡º
   VkMemoryRequirements reqs;
   vkGetBufferMemoryRequirements(m_device, obj.buffer, &reqs);
   VkMemoryAllocateInfo info{};
   info.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
   info.allocationSize = reqs.size;
-  // ƒƒ‚ƒŠƒ^ƒCƒv‚Ì”»’è
+  // ãƒ¡ãƒ¢ãƒªã‚¿ã‚¤ãƒ—ã®åˆ¤å®š
   info.memoryTypeIndex = getMemoryTypeIndex(reqs.memoryTypeBits, flags);
-  // ƒƒ‚ƒŠ‚ÌŠm•Û
+  // ãƒ¡ãƒ¢ãƒªã®ç¢ºä¿
   vkAllocateMemory(m_device, &info, nullptr, &obj.memory);
 
-  // ƒƒ‚ƒŠ‚ÌƒoƒCƒ“ƒh
+  // ãƒ¡ãƒ¢ãƒªã®ãƒã‚¤ãƒ³ãƒ‰
   vkBindBufferMemory(m_device, obj.buffer, obj.memory, 0);
   return obj;
 }
@@ -460,7 +460,7 @@ CubeApp::TextureObject CubeApp::createTexture(const char* fileName)
   auto format = VK_FORMAT_R8G8B8A8_UNORM;
 
   {
-    // ƒeƒNƒXƒ`ƒƒ‚ÌVkImage ‚ğ¶¬
+    // ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®VkImage ã‚’ç”Ÿæˆ
     VkImageCreateInfo ci{};
     ci.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
     ci.extent = { uint32_t(width), uint32_t(height), 1 };
@@ -472,23 +472,23 @@ CubeApp::TextureObject CubeApp::createTexture(const char* fileName)
     ci.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
     vkCreateImage(m_device, &ci, nullptr, &texture.image);
 
-    // ƒƒ‚ƒŠ—Ê‚ÌZo
+    // ãƒ¡ãƒ¢ãƒªé‡ã®ç®—å‡º
     VkMemoryRequirements reqs;
     vkGetImageMemoryRequirements(m_device, texture.image, &reqs);
     VkMemoryAllocateInfo info{};
     info.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
     info.allocationSize = reqs.size;
-    // ƒƒ‚ƒŠƒ^ƒCƒv‚Ì”»’è
+    // ãƒ¡ãƒ¢ãƒªã‚¿ã‚¤ãƒ—ã®åˆ¤å®š
     info.memoryTypeIndex = getMemoryTypeIndex(reqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-    // ƒƒ‚ƒŠ‚ÌŠm•Û
+    // ãƒ¡ãƒ¢ãƒªã®ç¢ºä¿
     vkAllocateMemory(m_device, &info, nullptr, &texture.memory);
-    // ƒƒ‚ƒŠ‚ÌƒoƒCƒ“ƒh
+    // ãƒ¡ãƒ¢ãƒªã®ãƒã‚¤ãƒ³ãƒ‰
     vkBindImageMemory(m_device, texture.image, texture.memory, 0);
   }
 
   {
     uint32_t imageSize = width * height * sizeof(uint32_t);
-    // ƒXƒe[ƒWƒ“ƒOƒoƒbƒtƒ@‚ğ—pˆÓ.
+    // ã‚¹ãƒ†ãƒ¼ã‚¸ãƒ³ã‚°ãƒãƒƒãƒ•ã‚¡ã‚’ç”¨æ„.
     stagingBuffer = createBuffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT);
     void* p;
     vkMapMemory(m_device, stagingBuffer.memory, 0, VK_WHOLE_SIZE, 0, &p);
@@ -524,7 +524,7 @@ CubeApp::TextureObject CubeApp::createTexture(const char* fileName)
   submitInfo.pCommandBuffers = &command;
   vkQueueSubmit(m_deviceQueue, 1, &submitInfo, VK_NULL_HANDLE);
   {
-    // ƒeƒNƒXƒ`ƒƒQÆ—p‚Ìƒrƒ…[‚ğ¶¬
+    // ãƒ†ã‚¯ã‚¹ãƒãƒ£å‚ç…§ç”¨ã®ãƒ“ãƒ¥ãƒ¼ã‚’ç”Ÿæˆ
     VkImageViewCreateInfo ci{};
     ci.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
     ci.viewType = VK_IMAGE_VIEW_TYPE_2D;
@@ -545,7 +545,7 @@ CubeApp::TextureObject CubeApp::createTexture(const char* fileName)
   vkDeviceWaitIdle(m_device);
   vkFreeCommandBuffers(m_device, m_commandPool, 1, &command);
 
-  // ƒXƒe[ƒWƒ“ƒOƒoƒbƒtƒ@‰ğ•ú.
+  // ã‚¹ãƒ†ãƒ¼ã‚¸ãƒ³ã‚°ãƒãƒƒãƒ•ã‚¡è§£æ”¾.
   vkFreeMemory(m_device, stagingBuffer.memory, nullptr);
   vkDestroyBuffer(m_device, stagingBuffer.buffer, nullptr);
 
@@ -597,8 +597,8 @@ void CubeApp::setImageMemoryBarrier(
     break;
   }
 
-  //srcStage = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT;  // ƒpƒCƒvƒ‰ƒCƒ“’†‚ÅƒŠƒ\[ƒX‚Ö‚Ì‘‚İÅI‚ÌƒXƒe[ƒW.
-  //dstStage = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;  // ƒpƒCƒvƒ‰ƒCƒ“’†‚ÅŸ‚ÉƒŠƒ\[ƒX‚É‘‚«‚ŞƒXƒe[ƒW.
+  //srcStage = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT;  // ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ä¸­ã§ãƒªã‚½ãƒ¼ã‚¹ã¸ã®æ›¸è¾¼ã¿æœ€çµ‚ã®ã‚¹ãƒ†ãƒ¼ã‚¸.
+  //dstStage = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;  // ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ä¸­ã§æ¬¡ã«ãƒªã‚½ãƒ¼ã‚¹ã«æ›¸ãè¾¼ã‚€ã‚¹ãƒ†ãƒ¼ã‚¸.
 
   vkCmdPipelineBarrier(
     command,

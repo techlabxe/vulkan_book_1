@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -80,7 +80,7 @@ protected:
   std::vector<VkFence>          m_fences;
   VkSemaphore   m_renderCompletedSem, m_presentCompletedSem;
 
-  // ƒfƒoƒbƒOƒŒƒ|[ƒgŠÖ˜A
+  // ãƒ‡ãƒãƒƒã‚°ãƒ¬ãƒãƒ¼ãƒˆé–¢é€£
   PFN_vkCreateDebugReportCallbackEXT	m_vkCreateDebugReportCallbackEXT;
   PFN_vkDebugReportMessageEXT	m_vkDebugReportMessageEXT;
   PFN_vkDestroyDebugReportCallbackEXT m_vkDestroyDebugReportCallbackEXT;

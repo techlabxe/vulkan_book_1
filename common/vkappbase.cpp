@@ -1,4 +1,4 @@
-#include "vkappbase.h"
+ï»¿#include "vkappbase.h"
 #include <sstream>
 #include <algorithm>
 #include <array>
@@ -52,48 +52,48 @@ VulkanAppBase::VulkanAppBase()
 
 void VulkanAppBase::initialize(GLFWwindow* window, const char* appName)
 {
-  // Vulkan ƒCƒ“ƒXƒ^ƒ“ƒX‚Ì¶¬
+  // Vulkan ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ç”Ÿæˆ
   initializeInstance(appName);
-  // •¨—ƒfƒoƒCƒX‚Ì‘I‘ğ
+  // ç‰©ç†ãƒ‡ãƒã‚¤ã‚¹ã®é¸æŠ
   selectPhysicalDevice();
   m_graphicsQueueIndex = searchGraphicsQueueIndex();
 
 #ifdef _DEBUG
-  // ƒfƒoƒbƒOƒŒƒ|[ƒgŠÖ”‚ÌƒZƒbƒg.
+  // ãƒ‡ãƒãƒƒã‚°ãƒ¬ãƒãƒ¼ãƒˆé–¢æ•°ã®ã‚»ãƒƒãƒˆ.
   enableDebugReport();
 #endif
 
-  // ˜_—ƒfƒoƒCƒX‚Ì¶¬
+  // è«–ç†ãƒ‡ãƒã‚¤ã‚¹ã®ç”Ÿæˆ
   createDevice();
-  // ƒRƒ}ƒ“ƒhƒv[ƒ‹‚Ì€”õ
+  // ã‚³ãƒãƒ³ãƒ‰ãƒ—ãƒ¼ãƒ«ã®æº–å‚™
   prepareCommandPool();
 
-  // ƒT[ƒtƒF[ƒX¶¬
+  // ã‚µãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ç”Ÿæˆ
   glfwCreateWindowSurface(m_instance, window, nullptr, &m_surface);
-  // ƒT[ƒtƒF[ƒX‚ÌƒtƒH[ƒ}ƒbƒgî•ñ‘I‘ğ
+  // ã‚µãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆæƒ…å ±é¸æŠ
   selectSurfaceFormat(VK_FORMAT_B8G8R8A8_UNORM);
-  // ƒT[ƒtƒF[ƒX‚Ì”\—Í’lî•ñæ“¾
+  // ã‚µãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã®èƒ½åŠ›å€¤æƒ…å ±å–å¾—
   vkGetPhysicalDeviceSurfaceCapabilitiesKHR(m_physDev, m_surface, &m_surfaceCaps);
   VkBool32 isSupport;
   vkGetPhysicalDeviceSurfaceSupportKHR(m_physDev, m_graphicsQueueIndex, m_surface, &isSupport);
 
-  // ƒXƒƒbƒvƒ`ƒFƒCƒ“¶¬
+  // ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ã‚¤ãƒ³ç”Ÿæˆ
   createSwapchain(window);
-  // ƒfƒvƒXƒoƒbƒtƒ@¶¬
+  // ãƒ‡ãƒ—ã‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
   createDepthBuffer();
-  // ƒXƒƒbƒvƒ`ƒFƒCƒ“ƒCƒ[ƒW‚ÆƒfƒvƒXƒoƒbƒtƒ@‚Ö‚ÌImageView‚ğ¶¬
+  // ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ã‚¤ãƒ³ã‚¤ãƒ¡ãƒ¼ã‚¸ã¨ãƒ‡ãƒ—ã‚¹ãƒãƒƒãƒ•ã‚¡ã¸ã®ImageViewã‚’ç”Ÿæˆ
   createViews();
 
-  // ƒŒƒ“ƒ_[ƒpƒX‚Ì¶¬
+  // ãƒ¬ãƒ³ãƒ€ãƒ¼ãƒ‘ã‚¹ã®ç”Ÿæˆ
   createRenderPass();
 
-  // ƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚Ì¶¬
+  // ãƒ•ãƒ¬ãƒ¼ãƒ ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
   createFramebuffer();
 
-  // ƒRƒ}ƒ“ƒhƒoƒbƒtƒ@‚Ì€”õ.
+  // ã‚³ãƒãƒ³ãƒ‰ãƒãƒƒãƒ•ã‚¡ã®æº–å‚™.
   prepareCommandBuffers();
 
-  // •`‰æƒtƒŒ[ƒ€“¯Šú—p
+  // æç”»ãƒ•ãƒ¬ãƒ¼ãƒ åŒæœŸç”¨
   prepareSemaphores();
 
   prepare();
@@ -155,7 +155,7 @@ void VulkanAppBase::initializeInstance(const char* appName)
   appInfo.apiVersion = VK_API_VERSION_1_1;
   appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
 
-  // Šg’£î•ñ‚Ìæ“¾.
+  // æ‹¡å¼µæƒ…å ±ã®å–å¾—.
   vector<VkExtensionProperties> props;
   {
     uint32_t count = 0;
@@ -175,13 +175,13 @@ void VulkanAppBase::initializeInstance(const char* appName)
   ci.ppEnabledExtensionNames = extensions.data();
   ci.pApplicationInfo = &appInfo;
 #ifdef _DEBUG
-  // ƒfƒoƒbƒOƒrƒ‹ƒh‚É‚ÍŒŸØƒŒƒCƒ„[‚ğ—LŒø‰»
+  // ãƒ‡ãƒãƒƒã‚°ãƒ“ãƒ«ãƒ‰æ™‚ã«ã¯æ¤œè¨¼ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’æœ‰åŠ¹åŒ–
   const char* layers[] = { "VK_LAYER_LUNARG_standard_validation" };
   ci.enabledLayerCount = 1;
   ci.ppEnabledLayerNames = layers;
 #endif
 
-  // ƒCƒ“ƒXƒ^ƒ“ƒX¶¬
+  // ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆ
   auto result = vkCreateInstance(&ci, nullptr, &m_instance);
   checkResult(result);
 }
@@ -193,9 +193,9 @@ void VulkanAppBase::selectPhysicalDevice()
   vector<VkPhysicalDevice> physDevs(devCount);
   vkEnumeratePhysicalDevices(m_instance, &devCount, physDevs.data());
 
-  // Å‰‚ÌƒfƒoƒCƒX‚ğg—p‚·‚é
+  // æœ€åˆã®ãƒ‡ãƒã‚¤ã‚¹ã‚’ä½¿ç”¨ã™ã‚‹
   m_physDev = physDevs[0];
-  // ƒƒ‚ƒŠƒvƒƒpƒeƒB‚ğæ“¾‚µ‚Ä‚¨‚­
+  // ãƒ¡ãƒ¢ãƒªãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’å–å¾—ã—ã¦ãŠã
   vkGetPhysicalDeviceMemoryProperties(m_physDev, &m_physMemProps);
 }
 
@@ -228,7 +228,7 @@ void VulkanAppBase::createDevice()
 
   vector<VkExtensionProperties> devExtProps;
   {
-    // Šg’£î•ñ‚Ìæ“¾.
+    // æ‹¡å¼µæƒ…å ±ã®å–å¾—.
     uint32_t count = 0;
     vkEnumerateDeviceExtensionProperties(m_physDev, nullptr, &count, nullptr);
     devExtProps.resize(count);
@@ -250,7 +250,7 @@ void VulkanAppBase::createDevice()
   auto result = vkCreateDevice(m_physDev, &ci, nullptr, &m_device);
   checkResult(result);
 
-  // ƒfƒoƒCƒXƒLƒ…[‚Ìæ“¾
+  // ãƒ‡ãƒã‚¤ã‚¹ã‚­ãƒ¥ãƒ¼ã®å–å¾—
   vkGetDeviceQueue(m_device, m_graphicsQueueIndex, 0, &m_deviceQueue);
 }
 
@@ -271,7 +271,7 @@ void VulkanAppBase::selectSurfaceFormat(VkFormat format)
   std::vector<VkSurfaceFormatKHR> formats(surfaceFormatCount);
   vkGetPhysicalDeviceSurfaceFormatsKHR(m_physDev, m_surface, &surfaceFormatCount, formats.data());
 
-  // ŒŸõ‚µ‚Äˆê’v‚·‚éƒtƒH[ƒ}ƒbƒg‚ğŒ©‚Â‚¯‚é.
+  // æ¤œç´¢ã—ã¦ä¸€è‡´ã™ã‚‹ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚’è¦‹ã¤ã‘ã‚‹.
   for (const auto& f : formats)
   {
     if (f.format == format)
@@ -287,7 +287,7 @@ void VulkanAppBase::createSwapchain(GLFWwindow* window)
   auto extent = m_surfaceCaps.currentExtent;
   if (extent.width == ~0u)
   {
-    // ’l‚ª–³Œø‚È‚Ì‚ÅƒEƒBƒ“ƒhƒEƒTƒCƒY‚ğg—p‚·‚é.
+    // å€¤ãŒç„¡åŠ¹ãªã®ã§ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºã‚’ä½¿ç”¨ã™ã‚‹.
     int width, height;
     glfwGetWindowSize(window, &width, &height);
     extent.width = uint32_t(width);
@@ -470,7 +470,7 @@ void VulkanAppBase::prepareCommandBuffers()
   auto result = vkAllocateCommandBuffers(m_device, &ai, m_commands.data());
   checkResult(result);
 
-  // ƒRƒ}ƒ“ƒhƒoƒbƒtƒ@‚ÌƒtƒFƒ“ƒX‚à“¯”—pˆÓ‚·‚é.
+  // ã‚³ãƒãƒ³ãƒ‰ãƒãƒƒãƒ•ã‚¡ã®ãƒ•ã‚§ãƒ³ã‚¹ã‚‚åŒæ•°ç”¨æ„ã™ã‚‹.
   m_fences.resize(ai.commandBufferCount);
   VkFenceCreateInfo ci{};
   ci.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
@@ -540,7 +540,7 @@ void VulkanAppBase::render()
   auto commandFence = m_fences[nextImageIndex];
   vkWaitForFences(m_device, 1, &commandFence, VK_TRUE, UINT64_MAX);
 
-  // ƒNƒŠƒA’l
+  // ã‚¯ãƒªã‚¢å€¤
   array<VkClearValue, 2> clearValue = {
     { {0.5f, 0.25f, 0.25f, 0.0f}, // for Color
       {1.0f, 0 } // for Depth
@@ -556,7 +556,7 @@ void VulkanAppBase::render()
   renderPassBI.pClearValues = clearValue.data();
   renderPassBI.clearValueCount = uint32_t(clearValue.size());
 
-  // ƒRƒ}ƒ“ƒhƒoƒbƒtƒ@EƒŒƒ“ƒ_[ƒpƒXŠJn
+  // ã‚³ãƒãƒ³ãƒ‰ãƒãƒƒãƒ•ã‚¡ãƒ»ãƒ¬ãƒ³ãƒ€ãƒ¼ãƒ‘ã‚¹é–‹å§‹
   VkCommandBufferBeginInfo commandBI{};
   commandBI.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
   auto& command = m_commands[nextImageIndex];
@@ -566,11 +566,11 @@ void VulkanAppBase::render()
   m_imageIndex = nextImageIndex;
   makeCommand(command);
 
-  // ƒRƒ}ƒ“ƒhEƒŒƒ“ƒ_[ƒpƒXI—¹
+  // ã‚³ãƒãƒ³ãƒ‰ãƒ»ãƒ¬ãƒ³ãƒ€ãƒ¼ãƒ‘ã‚¹çµ‚äº†
   vkCmdEndRenderPass(command);
   vkEndCommandBuffer(command);
 
-  // ƒRƒ}ƒ“ƒh‚ğÀsi‘—M)
+  // ã‚³ãƒãƒ³ãƒ‰ã‚’å®Ÿè¡Œï¼ˆé€ä¿¡)
   VkSubmitInfo submitInfo{};
   VkPipelineStageFlags waitStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
   submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -584,7 +584,7 @@ void VulkanAppBase::render()
   vkResetFences(m_device, 1, &commandFence);
   vkQueueSubmit(m_deviceQueue, 1, &submitInfo, commandFence);
 
-  // Present ˆ—
+  // Present å‡¦ç†
   VkPresentInfoKHR presentInfo{};
   presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
   presentInfo.swapchainCount = 1;

@@ -1,4 +1,4 @@
-#include "ModelApp.h"
+ï»¿#include "ModelApp.h"
 
 #include <fstream>
 #include <array>
@@ -14,7 +14,7 @@ using namespace std;
 
 void ModelApp::prepare()
 {
-  // ƒ‚ƒfƒ‹ƒf[ƒ^‚Ì“Ç‚İ‚İ
+  // ãƒ¢ãƒ‡ãƒ«ãƒ‡ãƒ¼ã‚¿ã®èª­ã¿è¾¼ã¿
   auto modelFilePath = experimental::filesystem::path("alicia-solid.vrm");
   if (modelFilePath.is_relative())
   {
@@ -38,7 +38,7 @@ void ModelApp::prepare()
   m_sampler = createSampler();
   prepareDescriptorSet();
 
-  // ’¸“_‚Ì“ü—Íİ’è
+  // é ‚ç‚¹ã®å…¥åŠ›è¨­å®š
   VkVertexInputBindingDescription inputBinding{
     0,                          // binding
     sizeof(Vertex),         // stride
@@ -59,7 +59,7 @@ void ModelApp::prepare()
   vertexInputCI.pVertexAttributeDescriptions = inputAttribs.data();
 
 
-  // ƒrƒ…[ƒ|[ƒg‚Ìİ’è
+  // ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆã®è¨­å®š
   VkViewport viewport;
   {
     viewport.x = 0.0f;
@@ -80,13 +80,13 @@ void ModelApp::prepare()
   viewportCI.scissorCount = 1;
   viewportCI.pScissors = &scissor;
 
-  // ƒvƒŠƒ~ƒeƒBƒuƒgƒ|ƒƒW[İ’è
+  // ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãƒˆãƒãƒ­ã‚¸ãƒ¼è¨­å®š
   VkPipelineInputAssemblyStateCreateInfo inputAssemblyCI{};
   inputAssemblyCI.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
   inputAssemblyCI.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 
 
-  // ƒ‰ƒXƒ^ƒ‰ƒCƒU[ƒXƒe[ƒgİ’è
+  // ãƒ©ã‚¹ã‚¿ãƒ©ã‚¤ã‚¶ãƒ¼ã‚¹ãƒ†ãƒ¼ãƒˆè¨­å®š
   VkPipelineRasterizationStateCreateInfo rasterizerCI{};
   rasterizerCI.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
   rasterizerCI.polygonMode = VK_POLYGON_MODE_FILL;
@@ -94,21 +94,21 @@ void ModelApp::prepare()
   rasterizerCI.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
   rasterizerCI.lineWidth = 1.0f;
 
-  // ƒ}ƒ‹ƒ`ƒTƒ“ƒvƒ‹İ’è
+  // ãƒãƒ«ãƒã‚µãƒ³ãƒ—ãƒ«è¨­å®š
   VkPipelineMultisampleStateCreateInfo multisampleCI{};
   multisampleCI.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
   multisampleCI.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
 
-  // ƒpƒCƒvƒ‰ƒCƒ“ƒŒƒCƒAƒEƒg
+  // ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ
   VkPipelineLayoutCreateInfo pipelineLayoutCI{};
   pipelineLayoutCI.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
   pipelineLayoutCI.setLayoutCount = 1;
   pipelineLayoutCI.pSetLayouts = &m_descriptorSetLayout;
   vkCreatePipelineLayout(m_device, &pipelineLayoutCI, nullptr, &m_pipelineLayout);
 
-  // •s“§–¾—p: ƒpƒCƒvƒ‰ƒCƒ“‚Ì\’z
+  // ä¸é€æ˜ç”¨: ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã®æ§‹ç¯‰
   {
-    // ƒuƒŒƒ“ƒfƒBƒ“ƒO‚Ìİ’è
+    // ãƒ–ãƒ¬ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ã®è¨­å®š
     const auto colorWriteAll = \
       VK_COLOR_COMPONENT_R_BIT | \
       VK_COLOR_COMPONENT_G_BIT | \
@@ -128,7 +128,7 @@ void ModelApp::prepare()
     cbCI.attachmentCount = 1;
     cbCI.pAttachments = &blendAttachment;
 
-    // ƒfƒvƒXƒXƒeƒ“ƒVƒ‹ƒXƒe[ƒgİ’è
+    // ãƒ‡ãƒ—ã‚¹ã‚¹ãƒ†ãƒ³ã‚·ãƒ«ã‚¹ãƒ†ãƒ¼ãƒˆè¨­å®š
     VkPipelineDepthStencilStateCreateInfo depthStencilCI{};
     depthStencilCI.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
     depthStencilCI.depthTestEnable = VK_TRUE;
@@ -136,13 +136,13 @@ void ModelApp::prepare()
     depthStencilCI.depthWriteEnable = VK_TRUE;
     depthStencilCI.stencilTestEnable = VK_FALSE;
 
-    // ƒVƒF[ƒ_[ƒoƒCƒiƒŠ‚Ì“Ç‚İ‚İ
+    // ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒã‚¤ãƒŠãƒªã®èª­ã¿è¾¼ã¿
     vector<VkPipelineShaderStageCreateInfo> shaderStages
     {
       loadShaderModule("shader.vert.spv", VK_SHADER_STAGE_VERTEX_BIT),
       loadShaderModule("shaderOpaque.frag.spv", VK_SHADER_STAGE_FRAGMENT_BIT)
     };
-    // ƒpƒCƒvƒ‰ƒCƒ“‚Ì\’z
+    // ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã®æ§‹ç¯‰
     VkGraphicsPipelineCreateInfo ci{};
     ci.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
     ci.stageCount = uint32_t(shaderStages.size());
@@ -158,16 +158,16 @@ void ModelApp::prepare()
     ci.layout = m_pipelineLayout;
     vkCreateGraphicsPipelines(m_device, VK_NULL_HANDLE, 1, &ci, nullptr, &m_pipelineOpaque);
 
-    // ShaderModule ‚Í‚à‚¤•s—v‚Ì‚½‚ß”jŠü
+    // ShaderModule ã¯ã‚‚ã†ä¸è¦ã®ãŸã‚ç ´æ£„
     for (const auto& v : shaderStages)
     {
       vkDestroyShaderModule(m_device, v.module, nullptr);
     }
   }
 
-  // ”¼“§–¾—p: ƒpƒCƒvƒ‰ƒCƒ“‚Ì\’z
+  // åŠé€æ˜ç”¨: ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã®æ§‹ç¯‰
   {
-    // ƒuƒŒƒ“ƒfƒBƒ“ƒO‚Ìİ’è
+    // ãƒ–ãƒ¬ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ã®è¨­å®š
     const auto colorWriteAll = \
       VK_COLOR_COMPONENT_R_BIT | \
       VK_COLOR_COMPONENT_G_BIT | \
@@ -187,7 +187,7 @@ void ModelApp::prepare()
     cbCI.attachmentCount = 1;
     cbCI.pAttachments = &blendAttachment;
 
-    // ƒfƒvƒXƒXƒeƒ“ƒVƒ‹ƒXƒe[ƒgİ’è
+    // ãƒ‡ãƒ—ã‚¹ã‚¹ãƒ†ãƒ³ã‚·ãƒ«ã‚¹ãƒ†ãƒ¼ãƒˆè¨­å®š
     VkPipelineDepthStencilStateCreateInfo depthStencilCI{};
     depthStencilCI.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
     depthStencilCI.depthTestEnable = VK_TRUE;
@@ -195,13 +195,13 @@ void ModelApp::prepare()
     depthStencilCI.depthWriteEnable = VK_FALSE;
     depthStencilCI.stencilTestEnable = VK_FALSE;
 
-    // ƒVƒF[ƒ_[ƒoƒCƒiƒŠ‚Ì“Ç‚İ‚İ
+    // ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒã‚¤ãƒŠãƒªã®èª­ã¿è¾¼ã¿
     vector<VkPipelineShaderStageCreateInfo> shaderStages
     {
       loadShaderModule("shader.vert.spv", VK_SHADER_STAGE_VERTEX_BIT),
       loadShaderModule("shaderAlpha.frag.spv", VK_SHADER_STAGE_FRAGMENT_BIT)
     };
-    // ƒpƒCƒvƒ‰ƒCƒ“‚Ì\’z
+    // ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã®æ§‹ç¯‰
     VkGraphicsPipelineCreateInfo ci{};
     ci.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
     ci.stageCount = uint32_t(shaderStages.size());
@@ -217,7 +217,7 @@ void ModelApp::prepare()
     ci.layout = m_pipelineLayout;
     vkCreateGraphicsPipelines(m_device, VK_NULL_HANDLE, 1, &ci, nullptr, &m_pipelineAlpha);
 
-    // ShaderModule ‚Í‚à‚¤•s—v‚Ì‚½‚ß”jŠü
+    // ShaderModule ã¯ã‚‚ã†ä¸è¦ã®ãŸã‚ç ´æ£„
     for (const auto& v : shaderStages)
     {
       vkDestroyShaderModule(m_device, v.module, nullptr);
@@ -260,7 +260,7 @@ void ModelApp::makeCommand(VkCommandBuffer command)
 {
   using namespace Microsoft::glTF;
 
-  // ƒ†ƒjƒtƒH[ƒ€ƒoƒbƒtƒ@‚Ì’†g‚ğXV‚·‚é.
+  // ãƒ¦ãƒ‹ãƒ•ã‚©ãƒ¼ãƒ ãƒãƒƒãƒ•ã‚¡ã®ä¸­èº«ã‚’æ›´æ–°ã™ã‚‹.
   ShaderParameters shaderParam{};
   shaderParam.mtxWorld = glm::identity<glm::mat4>();
   shaderParam.mtxView = lookAtRH(vec3(0.0f, 1.5f, -1.0f), vec3(0.0f, 1.25f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
@@ -277,13 +277,13 @@ void ModelApp::makeCommand(VkCommandBuffer command)
   {
     for (const auto& mesh : m_model.meshes)
     {
-      // ‘Î‰‚·‚éƒ|ƒŠƒSƒ“ƒƒbƒVƒ…‚Ì‚İ‚ğ•`‰æ‚·‚é.
+      // å¯¾å¿œã™ã‚‹ãƒãƒªã‚´ãƒ³ãƒ¡ãƒƒã‚·ãƒ¥ã®ã¿ã‚’æç”»ã™ã‚‹.
       if (m_model.materials[mesh.materialIndex].alphaMode != mode)
       {
         continue;
       }
 
-      // ƒ‚[ƒh‚É‰‚¶‚Äg—p‚·‚éƒpƒCƒvƒ‰ƒCƒ“‚ğ•Ï‚¦‚é.
+      // ãƒ¢ãƒ¼ãƒ‰ã«å¿œã˜ã¦ä½¿ç”¨ã™ã‚‹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚’å¤‰ãˆã‚‹.
       switch (mode)
       {
       case ALPHA_OPAQUE:
@@ -297,18 +297,18 @@ void ModelApp::makeCommand(VkCommandBuffer command)
         break;
       }
 
-      // Šeƒoƒbƒtƒ@ƒIƒuƒWƒFƒNƒg‚ÌƒZƒbƒg
+      // å„ãƒãƒƒãƒ•ã‚¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚»ãƒƒãƒˆ
       VkDeviceSize offset = 0;
       vkCmdBindVertexBuffers(command, 0, 1, &mesh.vertexBuffer.buffer, &offset);
       vkCmdBindIndexBuffer(command, mesh.indexBuffer.buffer, offset, VK_INDEX_TYPE_UINT32);
 
-      // ƒfƒBƒXƒNƒŠƒvƒ^ƒZƒbƒg‚ğƒZƒbƒg
+      // ãƒ‡ã‚£ã‚¹ã‚¯ãƒªãƒ—ã‚¿ã‚»ãƒƒãƒˆã‚’ã‚»ãƒƒãƒˆ
       VkDescriptorSet descriptorSets[] = {
         mesh.descriptorSet[m_imageIndex]
       };
       vkCmdBindDescriptorSets(command, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipelineLayout, 0, 1, descriptorSets, 0, nullptr);
 
-      // ‚±‚ÌƒƒbƒVƒ…‚ğ•`‰æ
+      // ã“ã®ãƒ¡ãƒƒã‚·ãƒ¥ã‚’æç”»
       vkCmdDrawIndexed(command, mesh.indexCount, 1, 0, 0, 0);
     }
   }
@@ -324,20 +324,20 @@ void ModelApp::makeModelGeometry(const Microsoft::glTF::Document& doc, std::shar
       std::vector<Vertex> vertices;
       std::vector<uint32_t> indices;
 
-      // ’¸“_ˆÊ’uî•ñƒAƒNƒZƒbƒT‚Ìæ“¾
+      // é ‚ç‚¹ä½ç½®æƒ…å ±ã‚¢ã‚¯ã‚»ãƒƒã‚µã®å–å¾—
       auto& idPos = meshPrimitive.GetAttributeAccessorId(ACCESSOR_POSITION);
       auto& accPos = doc.accessors.Get(idPos);
-      // –@üî•ñƒAƒNƒZƒbƒT‚Ìæ“¾
+      // æ³•ç·šæƒ…å ±ã‚¢ã‚¯ã‚»ãƒƒã‚µã®å–å¾—
       auto& idNrm = meshPrimitive.GetAttributeAccessorId(ACCESSOR_NORMAL);
       auto& accNrm = doc.accessors.Get(idNrm);
-      // ƒeƒNƒXƒ`ƒƒÀ•Wî•ñƒAƒNƒZƒbƒT‚Ìæ“¾
+      // ãƒ†ã‚¯ã‚¹ãƒãƒ£åº§æ¨™æƒ…å ±ã‚¢ã‚¯ã‚»ãƒƒã‚µã®å–å¾—
       auto& idUV = meshPrimitive.GetAttributeAccessorId(ACCESSOR_TEXCOORD_0);
       auto& accUV = doc.accessors.Get(idUV);
-      // ’¸“_ƒCƒ“ƒfƒbƒNƒX—pƒAƒNƒZƒbƒT‚Ìæ“¾
+      // é ‚ç‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ç”¨ã‚¢ã‚¯ã‚»ãƒƒã‚µã®å–å¾—
       auto& idIndex = meshPrimitive.indicesAccessorId;
       auto& accIndex = doc.accessors.Get(idIndex);
 
-      // ƒAƒNƒZƒbƒT‚©‚çƒf[ƒ^—ñ‚ğæ“¾
+      // ã‚¢ã‚¯ã‚»ãƒƒã‚µã‹ã‚‰ãƒ‡ãƒ¼ã‚¿åˆ—ã‚’å–å¾—
       auto vertPos = reader->ReadBinaryData<float>(doc, accPos);
       auto vertNrm = reader->ReadBinaryData<float>(doc, accNrm);
       auto vertUV = reader->ReadBinaryData<float>(doc, accUV);
@@ -345,7 +345,7 @@ void ModelApp::makeModelGeometry(const Microsoft::glTF::Document& doc, std::shar
       auto vertexCount = accPos.count;
       for (uint32_t i = 0; i < vertexCount; ++i)
       {
-        // ’¸“_ƒf[ƒ^‚Ì\’z
+        // é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã®æ§‹ç¯‰
         int vid0 = 3*i, vid1 = 3*i+1, vid2 = 3*i+2;
         int tid0 = 2*i, tid1 = 2*i+1;
         vertices.emplace_back(
@@ -356,17 +356,17 @@ void ModelApp::makeModelGeometry(const Microsoft::glTF::Document& doc, std::shar
           }
         );
       }
-      // ƒCƒ“ƒfƒbƒNƒXƒf[ƒ^
+      // ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ‡ãƒ¼ã‚¿
       indices = reader->ReadBinaryData<uint32_t>(doc, accIndex);
 
-      auto vbSize = sizeof(Vertex)*vertices.size();
-      auto ibSize = sizeof(uint32_t)*indices.size();
+      auto vbSize = UINT(sizeof(Vertex)*vertices.size());
+      auto ibSize = UINT(sizeof(uint32_t)*indices.size());
       ModelMesh modelMesh;
       modelMesh.vertexBuffer = createBuffer(vbSize, VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT, vertices.data());
       modelMesh.indexBuffer = createBuffer(ibSize,VK_BUFFER_USAGE_INDEX_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT, indices.data());
-      modelMesh.vertexCount = vertices.size();
-      modelMesh.indexCount = indices.size();
-      modelMesh.materialIndex = doc.materials.GetIndex(meshPrimitive.materialId);
+      modelMesh.vertexCount = UINT(vertices.size());
+      modelMesh.indexCount = UINT(indices.size());
+      modelMesh.materialIndex = int(doc.materials.GetIndex(meshPrimitive.materialId));
       m_model.meshes.push_back(modelMesh);
     }
   }
@@ -385,7 +385,7 @@ void ModelApp::makeModelMaterial(const Microsoft::glTF::Document& doc, std::shar
     auto imageBufferView = doc.bufferViews.Get(image.bufferViewId);
     auto imageData = reader->ReadBinaryData<char>(doc, imageBufferView);
 
-    // imageData ‚ª‰æ‘œƒf[ƒ^.
+    // imageData ãŒç”»åƒãƒ‡ãƒ¼ã‚¿.
     Material material{};
     material.alphaMode = m.alphaMode;
     material.texture = createTextureFromMemory(imageData);
@@ -433,7 +433,7 @@ void ModelApp::prepareDescriptorPool()
   descPoolSize[1].descriptorCount = 1;
   descPoolSize[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 
-  uint32_t maxDescriptorCount = m_swapchainImages.size() * m_model.meshes.size();
+  uint32_t maxDescriptorCount = uint32_t(m_swapchainImages.size() * m_model.meshes.size());
   VkDescriptorPoolCreateInfo ci{};
   ci.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
   ci.maxSets = maxDescriptorCount;
@@ -452,16 +452,16 @@ void ModelApp::prepareDescriptorSet()
 
   for (auto& mesh : m_model.meshes)
   {
-    // ƒfƒBƒXƒNƒŠƒvƒ^ƒZƒbƒg‚ÌŠm•Û
+    // ãƒ‡ã‚£ã‚¹ã‚¯ãƒªãƒ—ã‚¿ã‚»ãƒƒãƒˆã®ç¢ºä¿
     VkDescriptorSetAllocateInfo ai{};
     ai.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
     ai.descriptorPool = m_descriptorPool;
-    ai.descriptorSetCount = m_uniformBuffers.size();
+    ai.descriptorSetCount = uint32_t(m_uniformBuffers.size());
     ai.pSetLayouts = layouts.data();
     mesh.descriptorSet.resize(m_uniformBuffers.size());
     vkAllocateDescriptorSets(m_device, &ai, mesh.descriptorSet.data());
 
-    // ƒfƒBƒXƒNƒŠƒvƒ^ƒZƒbƒg‚Ö‘‚«‚İ.
+    // ãƒ‡ã‚£ã‚¹ã‚¯ãƒªãƒ—ã‚¿ã‚»ãƒƒãƒˆã¸æ›¸ãè¾¼ã¿.
     auto material = m_model.materials[mesh.materialIndex];
     for (int i = 0; i<int(m_uniformBuffers.size()); ++i)
     {
@@ -509,18 +509,18 @@ ModelApp::BufferObject ModelApp::createBuffer(uint32_t size, VkBufferUsageFlags 
   auto result = vkCreateBuffer(m_device, &ci, nullptr, &obj.buffer);
   checkResult(result);
 
-  // ƒƒ‚ƒŠ—Ê‚ÌZo
+  // ãƒ¡ãƒ¢ãƒªé‡ã®ç®—å‡º
   VkMemoryRequirements reqs;
   vkGetBufferMemoryRequirements(m_device, obj.buffer, &reqs);
   VkMemoryAllocateInfo info{};
   info.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
   info.allocationSize = reqs.size;
-  // ƒƒ‚ƒŠƒ^ƒCƒv‚Ì”»’è
+  // ãƒ¡ãƒ¢ãƒªã‚¿ã‚¤ãƒ—ã®åˆ¤å®š
   info.memoryTypeIndex = getMemoryTypeIndex(reqs.memoryTypeBits, flags);
-  // ƒƒ‚ƒŠ‚ÌŠm•Û
+  // ãƒ¡ãƒ¢ãƒªã®ç¢ºä¿
   vkAllocateMemory(m_device, &info, nullptr, &obj.memory);
 
-  // ƒƒ‚ƒŠ‚ÌƒoƒCƒ“ƒh
+  // ãƒ¡ãƒ¢ãƒªã®ãƒã‚¤ãƒ³ãƒ‰
   vkBindBufferMemory(m_device, obj.buffer, obj.memory, 0);
 
   if ((flags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT) != 0 &&
@@ -583,12 +583,13 @@ ModelApp::TextureObject ModelApp::createTextureFromMemory(const std::vector<char
   int width, height, channels;
   auto* pImage = stbi_load_from_memory(
     reinterpret_cast<const uint8_t*>(imageData.data()),
-    imageData.size(), &width, &height, &channels, 0);
+    int(imageData.size()),
+    &width, &height, &channels, 0);
 
   auto format = VK_FORMAT_R8G8B8A8_UNORM;
 
   {
-    // ƒeƒNƒXƒ`ƒƒ‚ÌVkImage ‚ğ¶¬
+    // ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®VkImage ã‚’ç”Ÿæˆ
     VkImageCreateInfo ci{};
     ci.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
     ci.extent = { uint32_t(width), uint32_t(height), 1 };
@@ -600,23 +601,23 @@ ModelApp::TextureObject ModelApp::createTextureFromMemory(const std::vector<char
     ci.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
     vkCreateImage(m_device, &ci, nullptr, &texture.image);
 
-    // ƒƒ‚ƒŠ—Ê‚ÌZo
+    // ãƒ¡ãƒ¢ãƒªé‡ã®ç®—å‡º
     VkMemoryRequirements reqs;
     vkGetImageMemoryRequirements(m_device, texture.image, &reqs);
     VkMemoryAllocateInfo info{};
     info.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
     info.allocationSize = reqs.size;
-    // ƒƒ‚ƒŠƒ^ƒCƒv‚Ì”»’è
+    // ãƒ¡ãƒ¢ãƒªã‚¿ã‚¤ãƒ—ã®åˆ¤å®š
     info.memoryTypeIndex = getMemoryTypeIndex(reqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-    // ƒƒ‚ƒŠ‚ÌŠm•Û
+    // ãƒ¡ãƒ¢ãƒªã®ç¢ºä¿
     vkAllocateMemory(m_device, &info, nullptr, &texture.memory);
-    // ƒƒ‚ƒŠ‚ÌƒoƒCƒ“ƒh
+    // ãƒ¡ãƒ¢ãƒªã®ãƒã‚¤ãƒ³ãƒ‰
     vkBindImageMemory(m_device, texture.image, texture.memory, 0);
   }
 
   {
     uint32_t imageSize = width * height * sizeof(uint32_t);
-    // ƒXƒe[ƒWƒ“ƒOƒoƒbƒtƒ@‚ğ—pˆÓ.
+    // ã‚¹ãƒ†ãƒ¼ã‚¸ãƒ³ã‚°ãƒãƒƒãƒ•ã‚¡ã‚’ç”¨æ„.
     stagingBuffer = createBuffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT, pImage);
   }
 
@@ -648,7 +649,7 @@ ModelApp::TextureObject ModelApp::createTextureFromMemory(const std::vector<char
   submitInfo.pCommandBuffers = &command;
   vkQueueSubmit(m_deviceQueue, 1, &submitInfo, VK_NULL_HANDLE);
   {
-    // ƒeƒNƒXƒ`ƒƒQÆ—p‚Ìƒrƒ…[‚ğ¶¬
+    // ãƒ†ã‚¯ã‚¹ãƒãƒ£å‚ç…§ç”¨ã®ãƒ“ãƒ¥ãƒ¼ã‚’ç”Ÿæˆ
     VkImageViewCreateInfo ci{};
     ci.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
     ci.viewType = VK_IMAGE_VIEW_TYPE_2D;
@@ -669,7 +670,7 @@ ModelApp::TextureObject ModelApp::createTextureFromMemory(const std::vector<char
   vkDeviceWaitIdle(m_device);
   vkFreeCommandBuffers(m_device, m_commandPool, 1, &command);
 
-  // ƒXƒe[ƒWƒ“ƒOƒoƒbƒtƒ@‰ğ•ú.
+  // ã‚¹ãƒ†ãƒ¼ã‚¸ãƒ³ã‚°ãƒãƒƒãƒ•ã‚¡è§£æ”¾.
   vkFreeMemory(m_device, stagingBuffer.memory, nullptr);
   vkDestroyBuffer(m_device, stagingBuffer.buffer, nullptr);
 
@@ -720,8 +721,8 @@ void ModelApp::setImageMemoryBarrier(
     break;
   }
 
-  //srcStage = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT;  // ƒpƒCƒvƒ‰ƒCƒ“’†‚ÅƒŠƒ\[ƒX‚Ö‚Ì‘‚İÅI‚ÌƒXƒe[ƒW.
-  //dstStage = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;  // ƒpƒCƒvƒ‰ƒCƒ“’†‚ÅŸ‚ÉƒŠƒ\[ƒX‚É‘‚«‚ŞƒXƒe[ƒW.
+  //srcStage = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT;  // ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ä¸­ã§ãƒªã‚½ãƒ¼ã‚¹ã¸ã®æ›¸è¾¼ã¿æœ€çµ‚ã®ã‚¹ãƒ†ãƒ¼ã‚¸.
+  //dstStage = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;  // ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ä¸­ã§æ¬¡ã«ãƒªã‚½ãƒ¼ã‚¹ã«æ›¸ãè¾¼ã‚€ã‚¹ãƒ†ãƒ¼ã‚¸.
 
   vkCmdPipelineBarrier(
     command,
