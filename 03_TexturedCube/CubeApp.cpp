@@ -319,9 +319,9 @@ void CubeApp::prepareDescriptorSetLayout()
 void CubeApp::prepareDescriptorPool()
 {
   array<VkDescriptorPoolSize, 2> descPoolSize;
-  descPoolSize[0].descriptorCount = 1;
+  descPoolSize[0].descriptorCount = uint32_t(m_uniformBuffers.size());
   descPoolSize[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-  descPoolSize[1].descriptorCount = 1;
+  descPoolSize[1].descriptorCount = uint32_t(m_uniformBuffers.size());
   descPoolSize[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 
   VkDescriptorPoolCreateInfo ci{};
@@ -342,7 +342,7 @@ void CubeApp::prepareDescriptorSet()
   VkDescriptorSetAllocateInfo ai{};
   ai.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
   ai.descriptorPool = m_descriptorPool;
-  ai.descriptorSetCount = m_uniformBuffers.size();
+  ai.descriptorSetCount = uint32_t(m_uniformBuffers.size());
   ai.pSetLayouts = layouts.data();
   m_descriptorSet.resize(m_uniformBuffers.size());
   vkAllocateDescriptorSets(m_device, &ai, m_descriptorSet.data());

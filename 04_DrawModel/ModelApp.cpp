@@ -427,10 +427,11 @@ void ModelApp::prepareDescriptorSetLayout()
 
 void ModelApp::prepareDescriptorPool()
 {
+  const uint32_t count = 100;
   array<VkDescriptorPoolSize, 2> descPoolSize;
-  descPoolSize[0].descriptorCount = 1;
+  descPoolSize[0].descriptorCount = count;
   descPoolSize[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-  descPoolSize[1].descriptorCount = 1;
+  descPoolSize[1].descriptorCount = count;
   descPoolSize[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 
   uint32_t maxDescriptorCount = uint32_t(m_swapchainImages.size() * m_model.meshes.size());
