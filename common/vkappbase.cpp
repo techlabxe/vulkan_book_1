@@ -174,9 +174,13 @@ void VulkanAppBase::initializeInstance(const char* appName)
   ci.enabledExtensionCount = uint32_t(extensions.size());
   ci.ppEnabledExtensionNames = extensions.data();
   ci.pApplicationInfo = &appInfo;
-#ifdef _DEBUG
+#ifdef _DEBUG 
   // デバッグビルド時には検証レイヤーを有効化
-  const char* layers[] = { "VK_LAYER_LUNARG_standard_validation" };
+  const char* layers[] = { "VK_LAYER_KHRONOS_validation" };
+  if (VK_HEADER_VERSION_COMPLETE < VK_MAKE_VERSION(1, 1, 106)) {
+	  // "VK_LAYER_LUNARG_standard_validation" は廃止になっているが昔の Vulkan SDK では動くので対処しておく.
+	  layers[0] = "VK_LAYER_LUNARG_standard_validation";
+  }
   ci.enabledLayerCount = 1;
   ci.ppEnabledLayerNames = layers;
 #endif
